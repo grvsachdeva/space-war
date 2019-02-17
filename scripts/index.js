@@ -86,6 +86,13 @@ function Enemy(I){
         I.age++;
         I.active = I.active && I.inBounds();
     };
+
+    I.explode = function(){
+        this.active = false;
+
+        // ToDo: Add an explosion graphic
+    };
+
     return I;
 }
 
@@ -136,6 +143,7 @@ function update(){
     if(Math.random() < 0.1){
         enemies.push(Enemy());
     }
+    handleCollisions();
 }
 
 player.shoot = function(){
@@ -154,6 +162,36 @@ player.midpoint = function(){
         y: this.y + this.height/2
     }
 };
+
+player.explode = function(){
+    this.active = false;
+
+    //ToDO: Add the explosion graphic and end the game
+};
+
+function collides(a, b){
+    return (a.x < b.x+b.width) &&  (a.x+a.width > b.x) &&
+    (a.y < b.y+b.height) && (a.y+a.height>b.y);
+}
+
+function handleCollisions(){
+    playerBullets.forEach(function(bullet){
+        enemies.forEach(function(enemy){
+            if(collides(bullet, enemy)){
+                enemy.explode();
+                bullet.active = false;
+            }
+        });
+    });
+
+    enemies.forEach(function(enemy){
+        if(collides(enemy, player)){
+            enemy.explode();
+            player.explode();
+        }
+    });
+
+}
 
 setInterval(function(){
     draw();
