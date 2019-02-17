@@ -7,7 +7,6 @@ canvasElement.width = CANVAS_WIDTH;
 canvasElement.height = CANVAS_HEIGHT;
 document.body.appendChild(canvasElement);
 
-console.log(canvas);
 var FPS = 30;
 var playerBullets = [];
 var enemies = [];
@@ -20,10 +19,13 @@ var player = {
     height: 32,
 
     draw: function(){
-        canvas.fillStyle = this.color;
-        canvas.fillRect(this.x, this.y, this.width, this.height);
+        this.sprite.draw(canvas, this.x, this.y);
+        // canvas.fillStyle = this.color;
+        // canvas.fillRect(this.x, this.y, this.width, this.height);
     }
 };
+
+player.sprite = Sprite("player");
 
 function Bullet(I){
     I.active = true;
@@ -64,14 +66,16 @@ function Enemy(I){
     I.yVelocity = 2;
     I.width = 32;
     I.height = 32;
+    I.sprite = Sprite("enemy");
 
     I.inBounds = function(){
         return (I.x >= 0 && I.x <= CANVAS_WIDTH) && (I.y >=0 && I.y <= CANVAS_HEIGHT);
     };
 
     I.draw = function(){
-        canvas.fillStyle = this.color;
-        canvas.fillRect(this.x, this.y, this.width, this.height);
+        // canvas.fillStyle = this.color;
+        // canvas.fillRect(this.x, this.y, this.width, this.height);
+        this.sprite.draw(canvas, this.x, this.y);
     };
 
     I.update = function(){
@@ -82,7 +86,6 @@ function Enemy(I){
         I.age++;
         I.active = I.active && I.inBounds();
     };
-
     return I;
 }
 
