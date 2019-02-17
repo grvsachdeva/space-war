@@ -88,6 +88,7 @@ function Enemy(I){
     };
 
     I.explode = function(){
+        Sound.play("explosion");
         this.active = false;
 
         // ToDo: Add an explosion graphic
@@ -148,6 +149,7 @@ function update(){
 
 player.shoot = function(){
     var bulletPosition = this.midpoint();
+    Sound.play("shoot");
 
     playerBullets.push(Bullet({
         speed: 5,
