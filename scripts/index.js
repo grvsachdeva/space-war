@@ -1,6 +1,7 @@
 const CANVAS_WIDTH = 480;
 const CANVAS_HEIGHT = 320;
 var enemy2counter = 5;
+var level = 1;
 
 var canvasElement = document.createElement("canvas");
 var canvas = canvasElement.getContext("2d");
@@ -66,7 +67,7 @@ function Enemy(I){
     I.x = CANVAS_WIDTH/4 + Math.random() * CANVAS_WIDTH/2;
     I.y = 0;
     I.xVelocity = 0;
-    I.yVelocity = 2;
+    I.yVelocity = getVelocity() + 1;
     I.width = 32;
     I.height = 32;
     I.sprite = Sprite("enemy");
@@ -112,7 +113,7 @@ function Enemy2(I){
     I.x = CANVAS_WIDTH/4 + Math.random() * CANVAS_WIDTH/2;
     I.y = 0;
     I.xVelocity = 0;
-    I.yVelocity = 3;
+    I.yVelocity = getVelocity();
     I.width = 45;
     I.height = 45;
     I.sprite = Sprite("enemy2");
@@ -126,6 +127,7 @@ function Enemy2(I){
     };
 
     I.update = function(){
+
         I.x += I.xVelocity;
         I.y += I.yVelocity;
 
@@ -164,6 +166,7 @@ function draw(){
   canvas.textAlign = "right";
   canvas.strokeText("Score: " + player.score, 400, 20);
   canvas.strokeText("Lives: " + player.lives, 80, 20);
+  canvas.strokeText("Level: " + level, 200, 20);
 }
 
 function gameOver(){
@@ -185,6 +188,16 @@ function gameOver(){
 function update(){
     if(player.lives <= 0){
         gameOver();
+    }
+
+    if(player.score >= 600){
+        level = 4;
+    }else if(player.score >= 500){
+        level = 3;
+    }else if(player.score >= 300){
+        level = 2;
+    }else{
+        level = 1;
     }
 
     if(keydown.left){
@@ -267,7 +280,7 @@ function handleCollisions(){
                 }else{
                     player.score += 10;
                 }
-                
+
                 enemy.explode();
                 bullet.active = false;
             }
@@ -282,6 +295,22 @@ function handleCollisions(){
         }
     });
 
+}
+
+function reset(){
+
+}
+
+function getVelocity(){
+    if(level === 2){
+        return 3;
+    }else if(level === 3){
+        return 4;
+    }else if(level === 4){
+        return 5;
+    }else{
+        return 2;
+    }
 }
 
 var interval = setInterval(function(){
