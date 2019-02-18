@@ -1,5 +1,6 @@
 const CANVAS_WIDTH = 480;
 const CANVAS_HEIGHT = 320;
+var enemy2counter = 5;
 
 var canvasElement = document.createElement("canvas");
 var canvas = canvasElement.getContext("2d");
@@ -58,7 +59,7 @@ function Bullet(I){
 
 function Enemy(I){
     I = I || {};
-
+    I.type = 1,
     I.active = true;
     I.age = Math.floor(Math.random() * 128);
     I.color = "#A2B";
@@ -101,6 +102,51 @@ function Enemy(I){
 
     return I;
 }
+
+function Enemy2(I){
+    I = I || {};
+    I.type = 2,
+    I.active = true;
+    I.age = Math.floor(Math.random() * 128);
+    I.color = "#A2B";
+    I.x = CANVAS_WIDTH/4 + Math.random() * CANVAS_WIDTH/2;
+    I.y = 0;
+    I.xVelocity = 0;
+    I.yVelocity = 3;
+    I.width = 45;
+    I.height = 45;
+    I.sprite = Sprite("enemy2");
+
+    I.inBounds = function(){
+        return (I.x >= 0 && I.x <= CANVAS_WIDTH) && (I.y >=0 && I.y <= CANVAS_HEIGHT);
+    };
+
+    I.draw = function(){
+        this.sprite.draw(canvas, this.x, this.y);
+    };
+
+    I.update = function(){
+        I.x += I.xVelocity;
+        I.y += I.yVelocity;
+
+        I.xVelocity = 3 * Math.sin(I.age * Math.PI/64);
+        I.age++;
+        I.active = I.active && I.inBounds();
+
+        if(I.inBounds() === false){
+            player.lives--;
+        }
+    };
+
+    I.explode = function(){
+        Sound.play("explosion");
+        this.active = false;
+        // ToDo: Add an explosion graphic
+    };
+
+    return I;
+}
+
 
 function draw(){
     canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -173,6 +219,12 @@ function update(){
 
     if(Math.random() < 0.1){
         enemies.push(Enemy());
+        if(enemy2counter == 0){
+            enemies.push(Enemy2());
+            enemy2counter = 5;
+        }else{
+            enemy2counter--;
+        }
     }
     handleCollisions();
 }
@@ -210,7 +262,12 @@ function handleCollisions(){
     playerBullets.forEach(function(bullet){
         enemies.forEach(function(enemy){
             if(collides(bullet, enemy)){
-                player.score += 10;
+                if(enemy.type === 2){
+                    player.score += 20;
+                }else{
+                    player.score += 10;
+                }
+                
                 enemy.explode();
                 bullet.active = false;
             }
@@ -219,7 +276,7 @@ function handleCollisions(){
 
     enemies.forEach(function(enemy){
         if(collides(enemy, player)){
-            player.lives--;
+            player.lives = 0;
             enemy.explode();
             player.explode();
         }
