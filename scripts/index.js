@@ -17,6 +17,7 @@ var player = {
     y: 270,
     width: 32,
     height: 32,
+    score: 0,
 
     draw: function(){
         this.sprite.draw(canvas, this.x, this.y);
@@ -90,7 +91,6 @@ function Enemy(I){
     I.explode = function(){
         Sound.play("explosion");
         this.active = false;
-
         // ToDo: Add an explosion graphic
     };
 
@@ -108,6 +108,10 @@ function draw(){
     enemies.forEach(function(enemy){
         enemy.draw();
     });
+    
+  canvas.font = "24px Helvetica";
+  canvas.textAlign = "right";
+  canvas.strokeText("Score: " + player.score, 400, 20);
 }
 
 function update(){
@@ -180,6 +184,7 @@ function handleCollisions(){
     playerBullets.forEach(function(bullet){
         enemies.forEach(function(enemy){
             if(collides(bullet, enemy)){
+                player.score += 10;
                 enemy.explode();
                 bullet.active = false;
             }
