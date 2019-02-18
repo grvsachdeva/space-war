@@ -11,6 +11,7 @@
   }
   
   function Sprite(image, sourceX, sourceY, width, height) {
+    console.log(image, width, height);
     sourceX = sourceX || 0;
     sourceY = sourceY || 0;
     width = width || image.width;
@@ -46,14 +47,14 @@
   Sprite.load = function(url, loadedCallback) {
     var img = new Image();
     var proxy = LoaderProxy();
-    
+  
     img.onload = function() {
       var tile = Sprite(this);
       
       $.extend(proxy, tile);
       
       if(loadedCallback) {
-        loadedCallback(proxy);
+       loadedCallback(proxy);
       }
     };
     

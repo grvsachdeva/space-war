@@ -18,6 +18,7 @@ var player = {
     width: 32,
     height: 32,
     score: 0,
+    lives: 3,
 
     draw: function(){
         this.sprite.draw(canvas, this.x, this.y);
@@ -86,6 +87,10 @@ function Enemy(I){
         I.xVelocity = 3 * Math.sin(I.age * Math.PI/64);
         I.age++;
         I.active = I.active && I.inBounds();
+
+        if(I.inBounds() === false){
+            player.lives--;
+        }
     };
 
     I.explode = function(){
@@ -108,13 +113,34 @@ function draw(){
     enemies.forEach(function(enemy){
         enemy.draw();
     });
-    
+
   canvas.font = "24px Helvetica";
   canvas.textAlign = "right";
   canvas.strokeText("Score: " + player.score, 400, 20);
+  canvas.strokeText("Lives: " + player.lives, 80, 20);
+}
+
+function gameOver(){
+    // var a = {
+    // color: "#00A",
+    // x: 100,
+    // y: 100,
+    //     width: 100,
+    //     height: 100
+    // }
+    // // canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // a.sprite = Sprite("gameover");
+    // a.sprite.draw(canvas, a.x, a.y);
+    
+    clearInterval(interval);
+    alert("Game Over!");
 }
 
 function update(){
+    if(player.lives <= 0){
+        gameOver();
+    }
+
     if(keydown.left){
         player.x -= 5;
     }
@@ -193,6 +219,7 @@ function handleCollisions(){
 
     enemies.forEach(function(enemy){
         if(collides(enemy, player)){
+            player.lives--;
             enemy.explode();
             player.explode();
         }
@@ -200,7 +227,7 @@ function handleCollisions(){
 
 }
 
-setInterval(function(){
+var interval = setInterval(function(){
     draw();
     update();
 }, 1000/FPS);
