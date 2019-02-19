@@ -2,4 +2,19 @@
 body {
   font-family: Verdana;
   font-size: 10pt;
+  background-image: url("../images/background.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#maindiv{
+  width: 600px;
+  height:500px;
+  margin: 0px auto;
+  border: 2px solid red;
+  /* background-image: url("../images/space4.gif");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
 }

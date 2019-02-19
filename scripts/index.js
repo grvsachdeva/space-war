@@ -1,5 +1,5 @@
-const CANVAS_WIDTH = 480;
-const CANVAS_HEIGHT = 320;
+const CANVAS_WIDTH = 600;  //480 old
+const CANVAS_HEIGHT = 500; //320 old
 var enemy2counter = 5;
 var level = 1;
 
@@ -7,7 +7,7 @@ var canvasElement = document.createElement("canvas");
 var canvas = canvasElement.getContext("2d");
 canvasElement.width = CANVAS_WIDTH;
 canvasElement.height = CANVAS_HEIGHT;
-document.body.appendChild(canvasElement);
+document.getElementById("maindiv").appendChild(canvasElement);
 
 var FPS = 30;
 var playerBullets = [];
@@ -15,8 +15,8 @@ var enemies = [];
 
 var player = {
     color: "#00A",
-    x: 220,
-    y: 270,
+    x: 280,
+    y: 450,
     width: 32,
     height: 32,
     score: 0,
@@ -162,11 +162,12 @@ function draw(){
         enemy.draw();
     });
 
-  canvas.font = "24px Helvetica";
-  canvas.textAlign = "right";
-  canvas.strokeText("Score: " + player.score, 400, 20);
-  canvas.strokeText("Lives: " + player.lives, 80, 20);
-  canvas.strokeText("Level: " + level, 200, 20);
+  canvas.font = "900 28px Helvetica";
+  canvas.fillStyle = "red";
+//   canvas.textAlign = "left";
+  canvas.fillText("Lives: " + player.lives, 30, 30);
+  canvas.fillText("Score: " + player.score, 220 , 30);
+  canvas.fillText("Level: " + level, 450, 30);
 }
 
 function gameOver(){
@@ -182,7 +183,7 @@ function gameOver(){
     // a.sprite.draw(canvas, a.x, a.y);
     
     clearInterval(interval);
-    alert("Game Over!");
+    // alert("Game Over!");
 }
 
 function update(){
@@ -201,11 +202,11 @@ function update(){
     }
 
     if(keydown.left){
-        player.x -= 5;
+        player.x -= 7;
     }
     
     if(keydown.right){
-        player.x += 5;
+        player.x += 7;
     }
 
     if(keydown.space){
