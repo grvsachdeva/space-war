@@ -1,11 +1,13 @@
 const CANVAS_WIDTH = 600;  //480 old
 const CANVAS_HEIGHT = 500; //320 old
 var enemy2counter = 5;
-var level = 1;
+var level = 0;
 var FPS = 50;
 var playerBullets = [];
 var enemies = [];
 var interval;
+var partition = 300;
+var enemyVelocity = 2;
 
 function reset(){
     if(document.getElementById("restartButton") != undefined){
@@ -18,6 +20,8 @@ function reset(){
     enemy2counter = 5;
     player.lives = 3;
     player.score = 0;
+    partition = 300;
+    enemyVelocity = 2;
 
     interval = setInterval(function(){
         draw();
@@ -98,7 +102,7 @@ function Enemy(I){
     I.x = CANVAS_WIDTH/4 + Math.random() * CANVAS_WIDTH/2;
     I.y = 0;
     I.xVelocity = 0;
-    I.yVelocity = getVelocity() + 1;
+    I.yVelocity = enemyVelocity;
     I.width = 32;
     I.height = 32;
     I.sprite = Sprite("enemy");
@@ -144,7 +148,7 @@ function Enemy2(I){
     I.x = CANVAS_WIDTH/4 + Math.random() * CANVAS_WIDTH/2;
     I.y = 0;
     I.xVelocity = 0;
-    I.yVelocity = getVelocity();
+    I.yVelocity = enemyVelocity+1;
     I.width = 45;
     I.height = 45;
     I.sprite = Sprite("enemy2");
@@ -206,22 +210,18 @@ function update(){
         gameOver();
     }
 
-    if(player.score >= 600){
-        level = 4;
-    }else if(player.score >= 500){
-        level = 3;
-    }else if(player.score >= 300){
-        level = 2;
-    }else{
-        level = 1;
+    var templevel = Math.floor(player.score/partition + 1);
+    if(templevel > level){
+        level = templevel;
+        enemyVelocity++;
     }
 
     if(keydown.left){
-        player.x -= 7;
+        player.x -= 6;
     }
     
     if(keydown.right){
-        player.x += 7;
+        player.x += 6;
     }
 
     if(keydown.space){
@@ -313,18 +313,6 @@ function handleCollisions(){
 
 }
 
-function getVelocity(){
-    if(level === 2){
-        return 3;
-    }else if(level === 3){
-        return 4;
-    }else if(level === 4){
-        return 5;
-    }else{
-        return 2;
-    }
-}
-
 function gameOver(){
     var image = new Image();
     image.src = "./images/gameover.png";
@@ -340,4 +328,3 @@ function gameOver(){
 }
 
 reset();
-
