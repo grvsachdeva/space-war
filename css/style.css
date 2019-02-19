@@ -39,4 +39,10 @@ body {
     top:  70%;
     position: absolute;
     border: 0;
+    transition: transform .2s;
+}
+
+#restartButton:hover{
+  border: 0;
+  transform: scale(1.1);
 }

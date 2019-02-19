@@ -316,8 +316,6 @@ function handleCollisions(){
 function gameOver(){
     var image = new Image();
     image.src = "./images/gameover.png";
-    // image.width = 200;
-    // image.height = 140;
     image.onload = function() {
         canvas.drawImage(image, 100,100, 400, 140);
     }
