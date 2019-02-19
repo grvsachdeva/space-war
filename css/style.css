@@ -27,3 +27,16 @@ body {
   background-repeat: no-repeat;
   background-size: cover; */
 }
+
+#restartButton{
+    width: 200px; 
+    height: 70px;  
+    background: url("../images/restartButton3.png"); 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 200px 70px;
+    left: 42%;
+    top:  70%;
+    position: absolute;
+    border: 0;
+}

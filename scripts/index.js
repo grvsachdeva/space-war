@@ -2,16 +2,34 @@ const CANVAS_WIDTH = 600;  //480 old
 const CANVAS_HEIGHT = 500; //320 old
 var enemy2counter = 5;
 var level = 1;
+var FPS = 50;
+var playerBullets = [];
+var enemies = [];
+var interval;
+
+function reset(){
+    if(document.getElementById("restartButton") != undefined){
+        var elem = document.getElementById("restartButton");
+        elem.parentNode.removeChild(elem);
+    }
+    level = 1;
+    playerBullets = [];
+    enemies = [];
+    enemy2counter = 5;
+    player.lives = 3;
+    player.score = 0;
+
+    interval = setInterval(function(){
+        draw();
+        update();
+    }, 1000/FPS);
+}
 
 var canvasElement = document.createElement("canvas");
 var canvas = canvasElement.getContext("2d");
 canvasElement.width = CANVAS_WIDTH;
 canvasElement.height = CANVAS_HEIGHT;
 document.getElementById("maindiv").appendChild(canvasElement);
-
-var FPS = 50;
-var playerBullets = [];
-var enemies = [];
 
 var player = {
     color: "#00A",
@@ -183,22 +201,6 @@ function draw(){
   canvas.fillText("Level: " + level, 450, 30);
 }
 
-function gameOver(){
-    // var a = {
-    // color: "#00A",
-    // x: 100,
-    // y: 100,
-    //     width: 100,
-    //     height: 100
-    // }
-    // // canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    // a.sprite = Sprite("gameover");
-    // a.sprite.draw(canvas, a.x, a.y);
-    
-    clearInterval(interval);
-    // alert("Game Over!");
-}
-
 function update(){
     if(player.lives <= 0){
         gameOver();
@@ -311,10 +313,6 @@ function handleCollisions(){
 
 }
 
-function reset(){
-
-}
-
 function getVelocity(){
     if(level === 2){
         return 3;
@@ -327,8 +325,19 @@ function getVelocity(){
     }
 }
 
-var interval = setInterval(function(){
-    draw();
-    update();
-}, 1000/FPS);
+function gameOver(){
+    var image = new Image();
+    image.src = "./images/gameover.png";
+    // image.width = 200;
+    // image.height = 140;
+    image.onload = function() {
+        canvas.drawImage(image, 100,100, 400, 140);
+    }
+    Sound.play("GameOver");
+    var restartButton = `<button id="restartButton" onclick="reset()"></button> `
+    $("#maindiv").append(restartButton);
+    clearInterval(interval);
+}
+
+reset();
 
