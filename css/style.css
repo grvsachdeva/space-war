@@ -12,7 +12,16 @@ body {
   width: 600px;
   height:500px;
   margin: 0px auto;
-  border: 2px solid red;
+  margin-top: 20px;
+  border-image-slice: 1;
+  border-width: 4px;
+  border-style: solid;
+  border-image: 
+    linear-gradient(
+      to bottom, 
+      red, 
+     yellow
+    )1;
   /* background-image: url("../images/space4.gif");
   background-position: center;
   background-repeat: no-repeat;

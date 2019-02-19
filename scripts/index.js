@@ -9,7 +9,7 @@ canvasElement.width = CANVAS_WIDTH;
 canvasElement.height = CANVAS_HEIGHT;
 document.getElementById("maindiv").appendChild(canvasElement);
 
-var FPS = 30;
+var FPS = 50;
 var playerBullets = [];
 var enemies = [];
 
@@ -38,14 +38,27 @@ function Bullet(I){
     I.width = 3;
     I.height = 3;
     I.color = "#000";
-    
+    I.sprite = Sprite("bullet_enemy");
     I.inBounds = function(){
         return (I.x >= 0 && I.x <= CANVAS_WIDTH) && (I.y >= 0 && I.y <= CANVAS_HEIGHT);
     };
 
     I.draw = function(){
-        canvas.fillStyle = this.color;
-        canvas.fillRect(this.x, this.y, this.width, this.height);
+        // canvas.beginPath();
+        // canvas.arc(this.x, this.y, this.width, 0, 2 * Math.PI);
+
+        // var grad = canvas.createRadialGradient(100,100,0,100,100,141.42);
+
+        // grad.addColorStop(0, 'rgba(82,255,246,1)');
+        // grad.addColorStop(1, 'rgba(0,128,128,1)');
+        
+        // canvas.setTransform(1,0,0,1,0,0);
+        // canvas.fillStyle = grad;
+
+        // // canvas.fillStyle = radial-gradient(#387989, #6dd5ed);
+        // canvas.fill();
+        this.sprite.draw(canvas, this.x, this.y);
+
     };
 
     I.update = function(){
