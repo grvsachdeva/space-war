@@ -46,3 +46,22 @@ body {
   border: 0;
   transform: scale(1.1);
 }
+
+#playButton{
+  width: 200px; 
+  height: 70px;  
+  background: url("../images/startButton2.png"); 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 200px 70px;
+  left: 42%;
+  top:  40%;
+  position: absolute;
+  border: 0;
+  transition: transform .2s;
+}
+
+#playButton:hover{
+border: 0;
+transform: scale(1.3);
+}
