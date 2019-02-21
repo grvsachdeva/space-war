@@ -45,15 +45,25 @@ var Sound = (function($) {
         if(!maxChannels || sounds[name].length < maxChannels) {
           var sound = loadSoundChannel(name);
           sounds[name].push(sound);
+          if(name === "kick_shock"){
+            sound.loop = true;
+          }
           sound.play();
         }
       }
     },
 
     stop: function(name) {
+      console.log("sounds", sounds[name][0]);
       if(sounds[name]) {
-        sounds[name].stop();
+        sounds[name][0].pause();
       }
+    },
+
+    reset: function(){
+      sounds = {}
     }
+
+
   });
 }(jQuery));

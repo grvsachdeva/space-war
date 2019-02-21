@@ -10,6 +10,11 @@ var interval;
 var partition = 300;
 var enemyVelocity = 2;
 
+resources.load([
+    'images/sprites.png'
+]);
+resources.onReady(start);
+
 function start() {
     canvas.font = "800 80px Verdana";
     var gradient = canvas.createLinearGradient(0, 0, canvasElement.width, 0);
@@ -21,12 +26,6 @@ function start() {
 
     var playButton = `<button id="playButton" onclick="reset()"></button> `
     $("#maindiv").append(playButton);
-
-    // var image = new Image();
-    // image.src = "./images/controls.png";
-    // image.onload = function () {
-    //     canvas.drawImage(image, 50, 320, 470, 100);
-    // }
 
     var image = new Image();
     image.src = "./images/space_bar.png";
@@ -45,9 +44,12 @@ function start() {
     canvas.fillText("Press SPACE to shoot", 30, 458);
     canvas.fillText("Press LEFT & RIGHT", 300, 458); 
     canvas.fillText("arrow keys to move", 320, 480);
+
 }
 
 function reset() {
+    Sound.reset();
+    Sound.play("kick_shock");
     if (document.getElementById("restartButton") != undefined) {
         var elem = document.getElementById("restartButton");
         elem.parentNode.removeChild(elem);
@@ -66,6 +68,8 @@ function reset() {
     player.score = 0;
     partition = 300;
     enemyVelocity = 2;
+    player.x = 280;
+    player.y = 450;
 
     interval = setInterval(function () {
         draw();
@@ -90,8 +94,6 @@ var player = {
 
     draw: function () {
         this.sprite.draw(canvas, this.x, this.y);
-        // canvas.fillStyle = this.color;
-        // canvas.fillRect(this.x, this.y, this.width, this.height);
     }
 };
 
@@ -219,7 +221,17 @@ function Enemy2(I) {
     I.explode = function () {
         Sound.play("explosion");
         this.active = false;
-        // ToDo: Add an explosion graphic
+        
+        explosions.push({
+            pos: [I.x, I.y],
+            sprite: new Sprite2('images/sprites.png',
+                               [0, 117],
+                               [39, 39],
+                               16,
+                               [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                               null,
+                               true)
+        });
     };
 
     return I;
@@ -240,7 +252,6 @@ function draw() {
 
     canvas.font = "900 28px Helvetica";
     canvas.fillStyle = "red";
-    //   canvas.textAlign = "left";
     canvas.fillText("Lives: " + player.lives, 30, 30);
     canvas.fillText("Score: " + player.score, 220, 30);
     canvas.fillText("Level: " + level, 450, 30);
@@ -251,6 +262,7 @@ function draw() {
 function update() {
     if (player.lives <= 0) {
         gameOver();
+        Sound.stop("kick_shock");
     }
 
     var templevel = Math.floor(player.score / partition + 1);
@@ -303,7 +315,6 @@ function update() {
     for(var i=0; i<explosions.length; i++) {
         explosions[i].sprite.update(0.013);
 
-        // Remove if animation is done
         if(explosions[i].sprite.done) {
             explosions.splice(i, 1);
             i--;
@@ -332,7 +343,16 @@ player.midpoint = function () {
 player.explode = function () {
     this.active = false;
 
-    //ToDO: Add the explosion graphic and end the game
+    explosions.push({
+        pos: [this.x, this.y],
+        sprite: new Sprite2('images/sprites.png',
+                           [0, 117],
+                           [39, 39],
+                           16,
+                           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                           null,
+                           true)
+    });
 };
 
 function collides(a, b) {
@@ -391,8 +411,3 @@ function gameOver() {
     $("#maindiv").append(restartButton);
     clearInterval(interval);
 }
-
-resources.load([
-    'images/sprites.png'
-]);
-resources.onReady(start);
