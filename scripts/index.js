@@ -5,6 +5,7 @@ var level = 0;
 var FPS = 50;
 var playerBullets = [];
 var enemies = [];
+var explosions = [];
 var interval;
 var partition = 300;
 var enemyVelocity = 2;
@@ -59,6 +60,7 @@ function reset() {
     level = 1;
     playerBullets = [];
     enemies = [];
+    explosions = [];
     enemy2counter = 5;
     player.lives = 3;
     player.score = 0;
@@ -108,21 +110,7 @@ function Bullet(I) {
     };
 
     I.draw = function () {
-        // canvas.beginPath();
-        // canvas.arc(this.x, this.y, this.width, 0, 2 * Math.PI);
-
-        // var grad = canvas.createRadialGradient(100,100,0,100,100,141.42);
-
-        // grad.addColorStop(0, 'rgba(82,255,246,1)');
-        // grad.addColorStop(1, 'rgba(0,128,128,1)');
-
-        // canvas.setTransform(1,0,0,1,0,0);
-        // canvas.fillStyle = grad;
-
-        // // canvas.fillStyle = radial-gradient(#387989, #6dd5ed);
-        // canvas.fill();
         this.sprite.draw(canvas, this.x, this.y);
-
     };
 
     I.update = function () {
@@ -175,7 +163,18 @@ function Enemy(I) {
     I.explode = function () {
         Sound.play("explosion");
         this.active = false;
-        // ToDo: Add an explosion graphic
+        
+        explosions.push({
+            pos: [I.x, I.y],
+            sprite: new Sprite2('images/sprites.png',
+                               [0, 117],
+                               [39, 39],
+                               16,
+                               [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                               null,
+                               true)
+        });
+
     };
 
     return I;
@@ -245,6 +244,8 @@ function draw() {
     canvas.fillText("Lives: " + player.lives, 30, 30);
     canvas.fillText("Score: " + player.score, 220, 30);
     canvas.fillText("Level: " + level, 450, 30);
+
+    renderEntities(explosions);
 }
 
 function update() {
@@ -298,6 +299,16 @@ function update() {
         }
     }
     handleCollisions();
+    
+    for(var i=0; i<explosions.length; i++) {
+        explosions[i].sprite.update(0.013);
+
+        // Remove if animation is done
+        if(explosions[i].sprite.done) {
+            explosions.splice(i, 1);
+            i--;
+        }
+    }
 }
 
 player.shoot = function () {
@@ -355,6 +366,20 @@ function handleCollisions() {
 
 }
 
+function renderEntities(list) {
+    for(var i=0; i<list.length; i++) {
+        renderEntity(list[i]);
+    }    
+}
+
+function renderEntity(entity) {
+    canvas.save();
+    canvas.translate(entity.pos[0], entity.pos[1]);
+    entity.sprite.render(canvas);
+    canvas.restore();
+}
+
+
 function gameOver() {
     var image = new Image();
     image.src = "./images/gameover.png";
@@ -367,4 +392,7 @@ function gameOver() {
     clearInterval(interval);
 }
 
-start();
+resources.load([
+    'images/sprites.png'
+]);
+resources.onReady(start);
