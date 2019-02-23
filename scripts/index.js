@@ -42,7 +42,7 @@ function start() {
     canvas.font = "800 25px Verdana";
     canvas.fillStyle = "yellow";
     canvas.fillText("Press SPACE to shoot", 30, 458);
-    canvas.fillText("Press LEFT & RIGHT", 300, 458); 
+    canvas.fillText("Press LEFT & RIGHT", 300, 458);
     canvas.fillText("arrow keys to move", 320, 480);
 
 }
@@ -68,8 +68,8 @@ function reset() {
     player.score = 0;
     partition = 300;
     enemyVelocity = 2;
-    player.x = 280;
-    player.y = 450;
+    player.x = 300;
+    player.y = 440;
 
     interval = setInterval(function () {
         draw();
@@ -85,10 +85,10 @@ document.getElementById("maindiv").appendChild(canvasElement);
 
 var player = {
     color: "#00A",
-    x: 280,
-    y: 450,
-    width: 32,
-    height: 32,
+    x: 440,
+    y: 300,
+    width: 60,
+    height: 60,
     score: 0,
     lives: 3,
 
@@ -97,7 +97,7 @@ var player = {
     }
 };
 
-player.sprite = Sprite("player");
+player.sprite = Sprite("player3");
 
 function Bullet(I) {
     I.active = true;
@@ -135,17 +135,15 @@ function Enemy(I) {
     I.y = 0;
     I.xVelocity = 0;
     I.yVelocity = enemyVelocity;
-    I.width = 32;
-    I.height = 32;
-    I.sprite = Sprite("enemy");
+    I.width = 50;
+    I.height = 50;
+    I.sprite = Sprite("enemy3");
 
     I.inBounds = function () {
         return (I.x >= 0 && I.x <= CANVAS_WIDTH) && (I.y >= 0 && I.y <= CANVAS_HEIGHT);
     };
 
     I.draw = function () {
-        // canvas.fillStyle = this.color;
-        // canvas.fillRect(this.x, this.y, this.width, this.height);
         this.sprite.draw(canvas, this.x, this.y);
     };
 
@@ -165,16 +163,16 @@ function Enemy(I) {
     I.explode = function () {
         Sound.play("explosion");
         this.active = false;
-        
+
         explosions.push({
             pos: [I.x, I.y],
             sprite: new Sprite2('images/sprites.png',
-                               [0, 117],
-                               [39, 39],
-                               16,
-                               [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                               null,
-                               true)
+                [0, 117],
+                [39, 39],
+                16,
+                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                null,
+                true)
         });
 
     };
@@ -192,8 +190,8 @@ function Enemy2(I) {
     I.y = 0;
     I.xVelocity = 0;
     I.yVelocity = enemyVelocity + 1;
-    I.width = 45;
-    I.height = 45;
+    I.width = 60;
+    I.height = 60;
     I.sprite = Sprite("enemy2");
 
     I.inBounds = function () {
@@ -221,16 +219,16 @@ function Enemy2(I) {
     I.explode = function () {
         Sound.play("explosion");
         this.active = false;
-        
+
         explosions.push({
             pos: [I.x, I.y],
             sprite: new Sprite2('images/sprites.png',
-                               [0, 117],
-                               [39, 39],
-                               16,
-                               [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                               null,
-                               true)
+                [0, 117],
+                [39, 39],
+                16,
+                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                null,
+                true)
         });
     };
 
@@ -311,11 +309,11 @@ function update() {
         }
     }
     handleCollisions();
-    
-    for(var i=0; i<explosions.length; i++) {
+
+    for (var i = 0; i < explosions.length; i++) {
         explosions[i].sprite.update(0.013);
 
-        if(explosions[i].sprite.done) {
+        if (explosions[i].sprite.done) {
             explosions.splice(i, 1);
             i--;
         }
@@ -346,12 +344,12 @@ player.explode = function () {
     explosions.push({
         pos: [this.x, this.y],
         sprite: new Sprite2('images/sprites.png',
-                           [0, 117],
-                           [39, 39],
-                           16,
-                           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                           null,
-                           true)
+            [0, 117],
+            [39, 39],
+            16,
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            null,
+            true)
     });
 };
 
@@ -387,9 +385,9 @@ function handleCollisions() {
 }
 
 function renderEntities(list) {
-    for(var i=0; i<list.length; i++) {
+    for (var i = 0; i < list.length; i++) {
         renderEntity(list[i]);
-    }    
+    }
 }
 
 function renderEntity(entity) {
