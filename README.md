@@ -1,5 +1,8 @@
 # Space War
 
+![space_war.gif](https://github.com/gauravano/space-war/blob/master/images/space_war.gif)
+
+
 Space War is a arcade style browser game where player has to destroy all the falling enemies in order to survive and gain score.
 
 Player has 3 lives at start of the game, it decreases each time a enemy's ship pass through the player's ship. The player's lives will become 0 if any of the enemy ship collides with it.
@@ -139,3 +142,11 @@ Contains the HTML of the game. It contains the canvas object.
 
 #### README.md
 Contains documentation of the game in the markdown format 
+
+## Screenshots
+
+![Entry page](https://github.com/gauravano/space-war/blob/master/images/entry_page.png)
+
+![screenshot from 2019-02-28 19-23-40](https://user-images.githubusercontent.com/20878070/53584101-e724bd80-3ba8-11e9-8d53-99b6b98a8190.png)
+
+![Game over](https://github.com/gauravano/space-war/blob/master/images/game_over_space_war.png)
