@@ -30,7 +30,131 @@ With each new level, enemy's ship velocity will increase by 1, making it difficu
 
 ## Implementation Approach
 
+I started the project using the provided demo code. I gone through all the instructions and implemented all the steps. After that, I had a running game with me but that looked very basic.
 
+I completed the addition implementations section after that, score count addition, gameover function implementation, new enemy created and levels created. So, at this point, I have all functionality ready but still game looks very basic(and bore). 
+
+So, I did some more work on styling, images, sounds, etc which can be seen here - https://github.com/gauravano/space-war/commits/master      
+
+The final game can be played at https://gauravano.github.io/space-war/ .
+
+Below are the details of some important functions(from index.js) involved in the gameplay:
+
+**1. Start function**
+
+```js
+function start() {
+    canvas.font = "800 80px Verdana";
+    var gradient = canvas.createLinearGradient(0, 0, canvasElement.width, 0);
+    gradient.addColorStop("0", " red");
+    gradient.addColorStop("0.5", "yellow");
+    gradient.addColorStop("1.0", "red");
+    canvas.fillStyle = gradient;
+    canvas.fillText("SPACE WAR", 60, 100);
+
+    var playButton = `<button id="playButton" onclick="reset()"></button> `
+    $("#maindiv").append(playButton);
+
+    var image = new Image();
+    image.src = "./images/space_bar.png";
+    image.onload = function () {
+        canvas.drawImage(image, 40, 378, 220, 48);
+    }
+
+    var image2 = new Image();
+    image2.src = "./images/arrow_keys.png";
+    image2.onload = function () {
+        canvas.drawImage(image2, 320, 330, 200, 100);
+    }
+
+    canvas.font = "800 25px Verdana";
+    canvas.fillStyle = "yellow";
+    canvas.fillText("Press SPACE to shoot", 30, 458);
+    canvas.fillText("Press LEFT & RIGHT", 300, 458);
+    canvas.fillText("arrow keys to move", 320, 480);
+
+}
+```
+
+It is called after the resource loading is done. This function shows the welcome screen of the game, showing name of the game, playing instructions with images, and Start game button using which player can start the game.
+
+**2. Reset Game**
+
+```js
+
+function reset() {
+    Sound.reset();
+    Sound.play("kick_shock");
+    if (document.getElementById("restartButton") != undefined) {
+        var elem = document.getElementById("restartButton");
+        elem.parentNode.removeChild(elem);
+    }
+
+    if (document.getElementById("playButton") != undefined) {
+        var elem = document.getElementById("playButton");
+        elem.parentNode.removeChild(elem);
+    }
+    level = 1;
+    playerBullets = [];
+    enemies = [];
+    explosions = [];
+    enemy2counter = 5;
+    player.lives = 3;
+    player.score = 0;
+    partition = 300;
+    enemyVelocity = 2;
+    player.x = 300;
+    player.y = 440;
+
+    interval = setInterval(function () {
+        draw();
+        update();
+    }, 1000 / FPS);
+}
+```
+  Reset function re-initializes the value of the variables and start the game i.e., falling of enemies, shooting, etc will begin after this function is called. The background song is also played after entering in this function. It also contains the infinite loop which updates and renders the canvas everytime. This function is called when user presses start button on entry page or when user presses reset button after game over.
+ 
+**3. Game Over function**
+
+```js 
+function gameOver() {
+    var image = new Image();
+    image.src = "./images/gameover.png";
+    image.onload = function () {
+        canvas.drawImage(image, 100, 100, 400, 140);
+    }
+    Sound.play("GameOver");
+
+    canvas.font = "800 34px Verdana";
+    canvas.fillStyle = "yellow";
+    canvas.fillText("YOUR SCORE: " + player.score, 145, 300);
+
+    var restartButton = `<button id="restartButton" onclick="reset()"></button> `
+    $("#maindiv").append(restartButton);
+    clearInterval(interval);
+}
+```
+
+This function is called when player lose all its lives. This function stops the game, shows the reset button and final score of the player. By pressing reset button, player can start a new game.
+
+**4. Render entities**
+
+```js
+function renderEntities(list) {
+    for (var i = 0; i < list.length; i++) {
+        renderEntity(list[i]);
+    }
+}
+
+function renderEntity(entity) {
+    canvas.save();
+    canvas.translate(entity.pos[0], entity.pos[1]);
+    entity.sprite.render(canvas);
+    canvas.restore();
+}
+```
+
+Render entities function receives explosions array as parameter and calls render entity on each object(explosion) present in the array. A explosion is shown by running a sprite image so render entity function is called for each explosion which then shows the explosion as a animation on the canvas using functions of sprites.js
 
 ## Code Organization
 
