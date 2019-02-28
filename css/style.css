@@ -26,7 +26,7 @@ body {
 #restartButton{
     width: 200px; 
     height: 70px;  
-    background: url("../images/restartButton4.png"); 
+    background: url("../images/restartButton.png"); 
     background-position: center;
     background-repeat: no-repeat;
     background-size: 200px 70px;
@@ -45,7 +45,7 @@ body {
 #playButton{
   width: 200px; 
   height: 70px;  
-  background: url("../images/startButton2.png"); 
+  background: url("../images/startButton.png"); 
   background-position: center;
   background-repeat: no-repeat;
   background-size: 200px 70px;

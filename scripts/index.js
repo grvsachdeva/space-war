@@ -34,7 +34,7 @@ function start() {
     }
 
     var image2 = new Image();
-    image2.src = "./images/arrow_keys2.png";
+    image2.src = "./images/arrow_keys.png";
     image2.onload = function () {
         canvas.drawImage(image2, 320, 330, 200, 100);
     }
@@ -97,7 +97,7 @@ var player = {
     }
 };
 
-player.sprite = Sprite("player3");
+player.sprite = Sprite("player");
 
 function Bullet(I) {
     I.active = true;
@@ -137,7 +137,7 @@ function Enemy(I) {
     I.yVelocity = enemyVelocity;
     I.width = 50;
     I.height = 50;
-    I.sprite = Sprite("enemy3");
+    I.sprite = Sprite("enemy1");
 
     I.inBounds = function () {
         return (I.x >= 0 && I.x <= CANVAS_WIDTH) && (I.y >= 0 && I.y <= CANVAS_HEIGHT);
@@ -408,7 +408,7 @@ function gameOver() {
 
     canvas.font = "800 34px Verdana";
     canvas.fillStyle = "yellow";
-    canvas.fillText("YOUR SCORE: " + player.score, 160, 300);
+    canvas.fillText("YOUR SCORE: " + player.score, 145, 300);
 
     var restartButton = `<button id="restartButton" onclick="reset()"></button> `
     $("#maindiv").append(restartButton);
