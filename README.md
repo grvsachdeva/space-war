@@ -204,7 +204,7 @@ css directory contains all the stylesheets used in the application
 
 images directory contains all the images used in the application at all the places.
 
-**arrow_keys.png** is the image of arrow keys which appear at start of the game and direct user to use "left" and "right" arrow key for moving the player leaft and right 
+**arrow_keys.png** is the image of arrow keys which appear at start of the game and direct user to use "left" and "right" arrow key for moving the player left and right 
 
 **background.png** is the image of the background which is used in application. Background remain same throughout the application.
 
@@ -212,7 +212,7 @@ images directory contains all the images used in the application at all the plac
 
 **enemy1.png** is the image of the Enemy1 ship
 
-**enemy1.png** is the image of the Enemy2 ship
+**enemy2.png** is the image of the Enemy2 ship
 
 **favicon-96x96.png** is the image used as favicon for the HTML page.
 
