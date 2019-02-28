@@ -405,6 +405,11 @@ function gameOver() {
         canvas.drawImage(image, 100, 100, 400, 140);
     }
     Sound.play("GameOver");
+
+    canvas.font = "800 34px Verdana";
+    canvas.fillStyle = "yellow";
+    canvas.fillText("YOUR SCORE: " + player.score, 160, 300);
+
     var restartButton = `<button id="restartButton" onclick="reset()"></button> `
     $("#maindiv").append(restartButton);
     clearInterval(interval);
