@@ -274,3 +274,9 @@ Contains documentation of the game in the markdown format
 ![screenshot from 2019-02-28 19-23-40](https://user-images.githubusercontent.com/20878070/53584101-e724bd80-3ba8-11e9-8d53-99b6b98a8190.png)
 
 ![Game over](https://github.com/gauravano/space-war/blob/master/images/game_over_space_war.png)
+
+# Declaration
+
+I have taken images and sounds from https://github.com/bohdan0/SpaceWar and https://github.com/jlongster/canvas-game-bootstrap
+
+
